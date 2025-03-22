@@ -3,16 +3,20 @@ const mongoose = require('mongoose');
 const attractionSchema = new mongoose.Schema({
     placeName: {
         type: String,
-        required: true, // Place name is required
+        required: true, 
+        index: true
     },
     areaName: {
-        type: String, // Name of the area (optional)
+        type: String, 
+        index: true
     },
     taluka: {
-        type: String, // Taluka name (optional)
+        type: String,
+        index: true
     },
     district: {
-        type: String, // District name (optional)
+        type: String, 
+        index: true
     },
     type: {
         type: String,
@@ -26,7 +30,8 @@ const attractionSchema = new mongoose.Schema({
             'Safari',
             'Jungle',
             'Waterfall'
-        ], // Type of attraction (optional)
+        ], 
+        index:true
     },
     description: {
         type: String, // Description of the attraction (optional)
@@ -56,5 +61,9 @@ const attractionSchema = new mongoose.Schema({
         type: Number, // Optional: General weather conditions (e.g., "Cool and Misty", "Hot and Humid")
     }
 }, { timestamps: true }); // Automatically add createdAt and updatedAt timestamps
+
+attractionSchema.index({ district: 1, taluka: 1 });
+attractionSchema.index({ type: 1, areaName: 1 });
+attractionSchema.index({ placeName: "text", description: "text" });
 
 module.exports = mongoose.model('attractions', attractionSchema);
